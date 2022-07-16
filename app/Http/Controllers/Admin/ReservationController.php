@@ -86,28 +86,22 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $reservation)
+    public function update(ReservationStoreRequest $request, Rersavation $reservation)
     {
-        $request -> validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'guest_number' => 'required',
-            'email' => 'required',
-            'tel_number' => 'required',
-            'table_id' => 'required',
-            'res_date' => 'required'
+        $table= Table::findOrFail($request->table_id);
+        if ($request->guest_number > $table->guest_number) {
+            return redirect()->route('admin.reservations.index')->with('message', 'Please choose the table base on guests');
+        }
+        $request_date = Carbon::parse($request->res_date);
+        $reservations = $table->reservations()->where('id', '!=', $reservations->id)->get();
+        foreach ($table->reservations as $res){
+            if($res->res_date->format('Y-m-d') == $request_date->format('Y-m-d')){
 
-        ]);
-        $reservation->update([
-            'first_name'=> $request->first_name,
-            'last_name'=> $request->last_name,
-            'email' =>$request->email,
-            'tel_number'=> $request->tel_number,
-            'table_id'=> $request->table_id,
-            'res_date' =>$request->res_date,
-            'guest_number' =>$request->guest_number,
-            
-        ]);
+                return redirect()->route('admin.reservations.index')->with('message', 'This table is reserved for this day.');
+
+            }
+        }
+        $reservation->update($request->validated());
         return redirect()->route('admin.reservations.index')->with('message', 'Reservation Updated Successfully');
     }
 

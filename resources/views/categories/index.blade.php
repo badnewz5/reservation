@@ -1,32 +1,35 @@
 <x-guest-layout>
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 sm:grid-cols-2 pt-10">
-        @foreach ($categories as $category)
-        <div class="w-full px-4 lg:px-0">
-          <div class="p-3 bg-white rounded shadow-md">
-            <div class="">
-              <div class="relative w-full mb-3 h-62 lg:mb-0">
-                <img src="{{ Storage::url($category->image) }}" alt="Just a flower"
-                  class="object-fill w-full h-full rounded">
-              </div>
-              <div class="flex-auto p-2 justify-evenly">
-                <div class="flex flex-wrap ">
-                  <div class="flex items-center justify-between w-full min-w-0 ">
-                    <a href="{{ route('categories.show', $category->id)}}">
-                    <h2 class="mr-auto text-lg cursor-pointer hover:text-green-400 ">
-                      {{$category->name}}
-                    </h2>
-                    </a>
-                  </div>
-                </div>
-                <div class="mt-1 text-xl font-semibold">
-                    
-                </div>
+  <section class="mt-8 bg-white">
+      <div class="mt-4 text-center">
+        <h3 class="text-2xl font-bold">Category Menu</h3>
+        <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+          CATEGORIES SPECIALITY</h2>
+      </div>
       
+      <div class="container w-full px-5 py-6 mx-auto">
+          
+          <div class="grid lg:grid-cols-4 gap-y-6">
+            @foreach ($categories as $category)
+              <div class="max-w-xs mx-4 mb-2 rounded-lg shadow-lg">
+                  <img class="w-full h-48" src="{{ Storage::url($category->image) }}"
+                  alt="Image" />
+                  <div class="px-6 py-4">
+                      <div class="flex mb-2">
+              
+                      </div>
+                      <a href="{{ route('categories.show', $category->id)}}">
+                      <h4 class="mb-3 text-xl font-semibold tracking-tight text-green-600 uppercase">{{$category->name}}</h4>
+                      </a>
+                      </div>
+                      <div class="flex items-center justify-between p-4">
+                          <button class="px-4 py-2 bg-green-600 text-green-50"><a href="{{ route('categories.show', $category->id)}}">Read Now</a></button>
+                          
+                      </div>
+                  </div>
+                  @endforeach 
               </div>
-            </div>
+              
           </div>
-        </div>
-        @endforeach
-
-    </div>
+         
+  </section>
 </x-guest-layout>

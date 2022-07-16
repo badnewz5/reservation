@@ -37,6 +37,13 @@
                                 <span class="text-red-600">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <div>
+                                <label for="title">Quantity</label>
+                                <input type="number" min="0.00" name="quantity" class="w-full py-2 rounded">
+                                @error('quantity')
+                                <span class="text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
                             <div class="mt-8">
                                 <label class="block mb-2 text-xl">Description </label>
                                 <textarea name="description" rows="3" cols="20" class="w-full rounded">

@@ -21,7 +21,15 @@
                             elit.</p>
                         </div>
                         <div class="flex items-center justify-between p-4">
-                            <button class="px-4 py-2 bg-green-600 text-green-50">Order Now</button>
+                            <form action="{{ route('carts.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" value="{{ $menu->id }}" name="id">
+                                <input type="hidden" value="{{ $menu->name }}" name="name">
+                                <input type="hidden" value="{{ $menu->price }}" name="price">
+                                <input type="hidden" value="{{ $menu->image }}"  name="image">
+                                <input type="hidden" value="1" name="quantity">
+                              <button class="px-4 py-2 bg-green-600 text-green-50">Order Now</button>
+                              </form>
                             <span class="text-xl text-green-600">${{$menu->price}}</span>
                         </div>
                     </div>

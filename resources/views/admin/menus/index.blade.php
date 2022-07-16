@@ -10,13 +10,15 @@
             <div class="flex justify-end m-2 p-2">
                 <a href="{{ route('admin.menus.create')}}" class="px-4 py-2 bg-indigo-500 hover:bg-indingo-700 rounded-lg text-white">New Menus</a>
             </div>
-            @if (session()->has('message'))
-            <div class="p-3 rounded bg-green-500 text-green-100 my-2">
-                {{ session('message') }}
+            <div x-data="{ showMessage: true }" x-show="showMessage" x-init="setTimeout(() => showMessage = false, 3000)">
+                @if (session()->has('message'))
+                <div class="p-3 text-green-700 bg-green-300 rounded">
+                    {{ session()->get('message') }}
+                </div>
+                @endif
             </div>
-            @endif
            
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -28,6 +30,9 @@
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Description
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Quantity
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Price
@@ -48,6 +53,9 @@
                 </td>
                 <td class="px-6 py-4">
                     {{$menu->description}}
+                </td>
+                <td class="px-6 py-4">
+                    {{$menu->quantity}}
                 </td>
                 <td class="px-6 py-4">
                     {{$menu->price}}

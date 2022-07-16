@@ -2,9 +2,10 @@
     <div
       class="container max-w-lg px-4 py-32 mx-auto text-left bg-center bg-no-repeat bg-cover md:max-w-none md:text-center"
       style="background-image: url('https://cdn.pixabay.com/photo/2016/11/18/14/39/beans-1834984_960_720.jpg')">
+      @foreach ($settings as $setting)
       <h1
         class="font-mono text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 md:text-center sm:leading-none lg:text-5xl">
-        <span class="inline md:block">Welcome To Larainfo Restaurant</span>
+        <span class="inline md:block">Welcome To {{$setting->name}}</span>
       </h1>
       <div class="mx-auto mt-2 text-green-50 md:text-center lg:text-lg">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta voluptatem ab necessitatibus illo praesentium
@@ -12,11 +13,12 @@
       </div>
       <div class="flex flex-col items-center mt-12 text-center">
         <span class="relative inline-flex w-full md:w-auto">
-          <a href="{{ route('reservation.step.one')}}" type="button"
+          <a href="{{ route('reservations.step.one')}}" type="button"
             class="inline-flex items-center justify-center px-6 py-2 text-base font-bold leading-6 text-white bg-green-600 rounded-full lg:w-full md:w-auto hover:bg-green-500 focus:outline-none">
             Make  your Reservation
           </a>
       </div>
+      @endforeach
     </div>
     <!-- End Main Hero Content -->
     <section class="px-2 py-32 bg-white md:px-0">
@@ -31,13 +33,13 @@
               </h3>
               <h2 class="text-4xl text-green-600">Welcome</h2>
               <!-- </h1> -->
+              @foreach ($settings as $setting)
               <p class="mx-auto text-base text-gray-500 sm:max-w-md lg:text-xl md:max-w-3xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus nemo incidunt praesentium, ipsum
-                culpa minus eveniet, id nesciunt excepturi sit voluptate repudiandae. Explicabo, incidunt quia.
-                Repellendus mollitia quaerat est voluptas!
+                {{$setting->about}}
               </p>
+              @endforeach
               <div class="relative flex">
-                <a href="#_"
+                <a href="{{ route('about')}}"
                   class="flex items-center w-full px-6 py-3 mb-3 text-lg text-white bg-green-600 rounded-md sm:mb-0 hover:bg-green-700 sm:w-auto">
                   Read More
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1" viewBox="0 0 24 24" fill="none"
@@ -114,25 +116,221 @@
       </div>
       <div class="container w-full px-5 py-6 mx-auto">
         <div class="grid lg:grid-cols-4 gap-y-6">
-            @foreach ($specials->menus as $menu)
+            @foreach ($specials as $menu)
           <div class="max-w-xs mx-4 mb-2 rounded-lg shadow-lg">
             <img class="w-full h-48" src="{{ Storage::url($menu->image) }}"
               alt="Image" />
             <div class="px-6 py-4">
               <div class="flex mb-2">
-                <span class="px-4 py-0.5 text-sm bg-red-500 rounded-full text-red-50">Seafood</span>
+                {{-- <span class="px-4 py-0.5 text-sm bg-red-500 rounded-full text-red-50">{{$menu->name}}</span> --}}
               </div>
-              <h4 class="mb-3 text-xl font-semibold tracking-tight text-green-600 uppercase">salmon fish 1 seafood</h4>
-              <p class="leading-normal text-gray-700">Lorem ipsum dolor, sit amet cons ectetur adipis icing
-                elit.</p>
+              <h4 class="mb-3 text-xl font-semibold tracking-tight text-green-600 uppercase">{{$menu->name}}</h4>
+              <p class="leading-normal text-gray-700 text-align:justify">{{$menu->description}}.</p>
             </div>
             <div class="flex items-center justify-between p-4">
+              <form action="{{ route('carts.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" value="{{ $menu->id }}" name="id">
+                <input type="hidden" value="{{ $menu->name }}" name="name">
+                <input type="hidden" value="{{ $menu->price }}" name="price">
+                <input type="hidden" value="{{ $menu->image }}"  name="image">
+                <input type="hidden" value="1" name="quantity">
               <button class="px-4 py-2 bg-green-600 text-green-50">Order Now</button>
-              <span class="text-xl text-green-600">${{$menu->name}}</span>
+              </form>
+              <span class="text-xl text-green-600">${{$menu->price}}</span>
             </div>
           </div>
            @endforeach
 
+        </div>
+      </div> 
+    </section>
+    <section>
+      <div class="max-w-screen-xl px-4 mx-auto md:px-8">
+        <div class="mb-10 md:mb-16">
+          <h2
+            class="
+              mb-4
+              text-2xl
+              font-bold
+              text-center text-gray-800
+              lg:text-3xl
+              md:mb-6
+            "
+          >
+            Our Chief
+          </h2>
+      
+          <p class="max-w-screen-md mx-auto text-center text-gray-500 md:text-lg">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis
+            perspiciatis omnis aspernatur impedit vel, consectetur laudantium nulla et
+            aliqua
+          </p>
+        </div>
+      
+        <div class="grid gap-4 md:grid-cols-3">
+          <div class="p-4 shadow">
+            <div class="h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-80">
+              <img
+                src="https://cdn.pixabay.com/photo/2016/11/21/12/42/beard-1845166__340.jpg"
+                alt="Image"
+                class="object-cover object-center w-full h-full"
+              />
+            </div>
+      
+            <div class="flex flex-col items-center justify-center">
+              <div class="font-bold text-indigo-500 md:text-lg">John Doe</div>
+              <p class="mb-3 text-sm text-gray-500 md:text-base md:mb-4">
+                Founder / CEO
+              </p>
+      
+              <div class="flex">
+                <div class="flex gap-4">
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-600 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                      />
+                    </svg>
+                  </a>
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-300 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                      />
+                    </svg>
+                  </a>
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-500 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                    >
+                      <path
+                        d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                      ></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 shadow">
+            <div class="h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-80">
+              <img
+                src="https://cdn.pixabay.com/photo/2016/11/18/19/07/happy-1836445__340.jpg"
+                alt="Image"
+                class="object-cover object-center w-full h-full"
+              />
+            </div>
+      
+            <div class="flex flex-col items-center justify-center">
+              <div class="font-bold text-indigo-500 md:text-lg">John Doe</div>
+              <p class="mb-3 text-sm text-gray-500 md:text-base md:mb-4">
+                Web Developer
+              </p>
+      
+              <div class="flex">
+                <div class="flex gap-4">
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-600 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                      />
+                    </svg>
+                  </a>
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-300 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                      />
+                    </svg>
+                  </a>
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-500 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                    >
+                      <path
+                        d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                      ></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 shadow">
+            <div class="h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-80">
+              <img
+                src="https://cdn.pixabay.com/photo/2018/01/15/07/52/woman-3083401__340.jpg"
+                alt="Image"
+                class="object-cover object-center w-full h-full"
+              />
+            </div>
+      
+            <div class="flex flex-col items-center justify-center">
+              <div class="font-bold text-indigo-500 md:text-lg">Scarlet</div>
+              <p class="mb-3 text-sm text-gray-500 md:text-base md:mb-4">
+                Devops Engineer
+              </p>
+      
+              <div class="flex">
+                <div class="flex gap-4">
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-600 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                      />
+                    </svg>
+                  </a>
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-300 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                      />
+                    </svg>
+                  </a>
+                  <a href="#">
+                    <svg
+                      class="w-6 h-6 text-blue-500 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                    >
+                      <path
+                        d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                      ></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

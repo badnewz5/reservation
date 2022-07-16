@@ -45,6 +45,7 @@ class MenuController extends Controller
             'name' =>$request->name,
             'description' =>$request->description,
             'price' =>$request->price,
+            'quantity' => $request->quantity,
             'image' =>$image
 
         ]);
@@ -88,6 +89,7 @@ class MenuController extends Controller
         $request -> validate([
             'name' => 'required',
             'price' => 'required',
+            'quantity' => 'required',
             'description' => 'required'
 
         ]);
@@ -100,6 +102,7 @@ class MenuController extends Controller
             'name'=> $request->name,
             'description' =>$request->description,
             'price' =>$request->price,
+            'quantity' => $request->quantity,
             'image' => $image
         ]);
         if ($request->has('categories')) {
